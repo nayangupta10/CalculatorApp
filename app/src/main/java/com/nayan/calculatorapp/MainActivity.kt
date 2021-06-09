@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.ArithmeticException
 
 class MainActivity : AppCompatActivity() {
@@ -19,19 +20,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onDigit(view: View) {
-        findViewById<TextView>(R.id.tvInput).append((view as Button).text)
+        tvInput.append((view as Button).text)
         lastNumeric = true
     }
 
     fun onClear(view: View) {
-        findViewById<TextView>(R.id.tvInput).text = ""
+        tvInput.text = ""
         lastNumeric = false
         lastDot = false
     }
 
     fun onDecimalPoint(view: View) {
         if (lastNumeric && !lastDot) {
-            findViewById<TextView>(R.id.tvInput).append(".")
+            tvInput.append(".")
             lastNumeric = false
             lastDot = true
         }
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     fun onEqual(view: View) {
         if (lastNumeric) {
             try {
-                var tvValue = findViewById<TextView>(R.id.tvInput).text.toString()
+                var tvValue = tvInput.text.toString()
                 var prefix = ""
 
                 if (tvValue.startsWith("-")) {
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                     if (prefix.isNotEmpty())
                         one = prefix + one
 
-                    findViewById<TextView>(R.id.tvInput).text =
+                    tvInput.text =
                         removeZeroAfterDot((one.toDouble() - two.toDouble()).toString())
                 } else if (tvValue.contains("+")) {
                     val splitValue = tvValue.split("+")
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     if (prefix.isNotEmpty())
                         one = prefix + one
 
-                    findViewById<TextView>(R.id.tvInput).text =
+                    tvInput.text =
                         removeZeroAfterDot((one.toDouble() + two.toDouble()).toString())
                 } else if (tvValue.contains("/")) {
                     val splitValue = tvValue.split("/")
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                     if (prefix.isNotEmpty())
                         one = prefix + one
 
-                    findViewById<TextView>(R.id.tvInput).text =
+                    tvInput.text =
                         removeZeroAfterDot((one.toDouble() / two.toDouble()).toString())
                 } else if (tvValue.contains("*")) {
                     val splitValue = tvValue.split("*")
@@ -89,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                     if (prefix.isNotEmpty())
                         one = prefix + one
 
-                    findViewById<TextView>(R.id.tvInput).text =
+                    tvInput.text =
                         removeZeroAfterDot((one.toDouble() * two.toDouble()).toString())
                 }
             } catch (e: ArithmeticException) {
@@ -106,8 +107,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onOperator(view: View) {
-        if (lastNumeric && !isOperatorAdd(findViewById<TextView>(R.id.tvInput).text.toString())) {
-            findViewById<TextView>(R.id.tvInput).append((view as Button).text)
+        if (lastNumeric && !isOperatorAdd(tvInput.text.toString())) {
+            tvInput.append((view as Button).text)
             lastNumeric = false
             lastDot = false
         }
